@@ -1,8 +1,15 @@
 <template>
     <div>
-        <div v-for="(element, index) in userSearch" :key="index ">
-            <Card :movie="element"/>
-        </div>
+        <ul v-for="element in movieSearch" :key="element.id">
+            <li>
+                <Card :movie="element"/>
+            </li>
+        </ul>
+        <ul v-for="element in seriesSearch" :key="element.id">
+            <li>
+                <Card :series="element"/>
+            </li>
+        </ul>
     </div>
 </template>
 
@@ -17,7 +24,8 @@ export default {
     },
 
     props: {
-        userSearch: Array
+        movieSearch: Array,
+        seriesSearch: Array
     }
 }
 </script>

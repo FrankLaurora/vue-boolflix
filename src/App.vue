@@ -1,8 +1,7 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
     <Header @searchByTitle="fetchMovies"/>
-    <Catalogue :userSearch="movieList"/>
+    <Catalogue :movieSearch="movieList" :seriesSearch="seriesList"/>
   </div>
 </template>
 
@@ -20,7 +19,9 @@ export default {
 
   data() {
     return {
-      movieList: []
+      movieList: [],
+
+      seriesList: []
     }
   },
 
@@ -39,9 +40,37 @@ export default {
             }
         );
 
-        return this.movieList;
+        axios.get('https://api.themoviedb.org/3/search/tv', {
+                params: {
+                    api_key: '1d2064f2ac36d63f2852970763f815fc',
+                    query: titleSearch
+                }
+            })
+        .then(
+            (response) => {
+                console.log(response);
+                this.seriesList = response.data.results;
+            }
+        );
       }   
     }
+
+    // fetchSeries(titleSearch) {
+    //     axios.get('https://api.themoviedb.org/3/search/tv', {
+    //             params: {
+    //                 api_key: '1d2064f2ac36d63f2852970763f815fc',
+    //                 query: titleSearch
+    //             }
+    //         })
+    //     .then(
+    //         (response) => {
+    //             console.log(response);
+    //             this.seriesList = response.data.results;
+    //         }
+    //     );
+
+    //     return this.seriesList;
+    // }   
 }
 </script>
 
