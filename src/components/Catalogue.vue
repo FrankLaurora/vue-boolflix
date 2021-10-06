@@ -1,12 +1,12 @@
 <template>
     <div>
-        <ul v-for="element in movieSearch" :key="element.id">
-            <li>
+        <ul>
+            <li v-for="element in movieSearch" :key="element.id">
                 <Card :movie="element"/>
             </li>
         </ul>
-        <ul v-for="element in seriesSearch" :key="element.id">
-            <li>
+        <ul>
+            <li v-for="element in seriesSearch" :key="element.id">
                 <Card :series="element"/>
             </li>
         </ul>
