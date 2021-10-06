@@ -5,8 +5,6 @@
                 <li v-for="element in movieSearch" :key="element.id">
                     <Card :movie="element"/>
                 </li>
-            </ul>
-            <ul>
                 <li v-for="element in seriesSearch" :key="element.id">
                     <Card :series="element"/>
                 </li>
@@ -45,13 +43,13 @@ export default {
     ul {
         display: flex;
         flex-wrap: wrap;
+        width: 100%;
     }
 
     li{
         list-style: none;
         margin: 1rem;
         width: calc(25% - 2rem);
-        text-align: center;
     }
 
 </style>

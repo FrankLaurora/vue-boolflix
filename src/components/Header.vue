@@ -32,7 +32,7 @@ export default {
         height: $header-height;
         width: 100%;
         padding-inline: 1.5rem;
-        box-shadow: 0px 0px 8px rgb(240, 253, 255) inset;
+        box-shadow: 0px 0px 12px rgb(240, 253, 255) inset;
 
         h1, button {
             text-transform: uppercase;
