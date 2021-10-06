@@ -1,50 +1,24 @@
 <template>
     <div>
-        <ul>
-            <li v-for="(movie, index) in userSearch" :key="index">
-                <h2>{{movie.title}}</h2>
-                <h3>{{movie.original_title}}</h3>
-                <h3>{{movie.original_language}}</h3>
-                <h3>{{movie.vote_average}}</h3>
-            </li>
-        </ul>
+        <div v-for="(element, index) in userSearch" :key="index ">
+            <Card :movie="element"/>
+        </div>
     </div>
 </template>
 
 <script>
-// import axios from 'axios'
+import Card from './Card.vue';
 
 export default {
     name: 'Catalogue',
 
+    components: {
+        Card
+    },
+
     props: {
         userSearch: Array
     }
-
-    // data() {
-    //     return {
-    //         movieList: []
-    //     }
-    // },
-
-    // methods: {
-    //     fetchMovies(text) {
-    //         axios.get('https://api.themoviedb.org/3/search/movie', {
-    //                 params: {
-    //                     api_key: '1d2064f2ac36d63f2852970763f815fc',
-    //                     query: text
-    //                 }
-    //             })
-    //         .then(
-    //             (response) => {
-    //                 console.log(response);
-    //                 this.movieList = response.data.results;
-    //             }
-    //         );
-
-    //         return this.movieList;
-    //     }
-    // }
 }
 </script>
 

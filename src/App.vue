@@ -1,14 +1,15 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <Header @searchByTitle="getTitle"/>
-    <Catalogue :userSearch="userSearch"/>
+    <Header @searchByTitle="fetchMovies"/>
+    <Catalogue :userSearch="movieList"/>
   </div>
 </template>
 
 <script>
-import Catalogue from './components/Catalogue.vue'
-import Header from './components/Header.vue'
+import Catalogue from './components/Catalogue.vue';
+import Header from './components/Header.vue';
+import axios from 'axios';
 
 export default {
   name: 'App',
@@ -19,15 +20,28 @@ export default {
 
   data() {
     return {
-      userSearch: null
+      movieList: []
     }
   },
 
   methods: {
-    getTitle(textInput) {
-      this.userSearch = textInput
+    fetchMovies(titleSearch) {
+        axios.get('https://api.themoviedb.org/3/search/movie', {
+                params: {
+                    api_key: '1d2064f2ac36d63f2852970763f815fc',
+                    query: titleSearch
+                }
+            })
+        .then(
+            (response) => {
+                console.log(response);
+                this.movieList = response.data.results;
+            }
+        );
+
+        return this.movieList;
+      }   
     }
-  }
 }
 </script>
 
