@@ -30,7 +30,8 @@ export default {
         axios.get('https://api.themoviedb.org/3/search/movie', {
                 params: {
                     api_key: '1d2064f2ac36d63f2852970763f815fc',
-                    query: titleSearch
+                    query: titleSearch,
+                    language: 'it-IT'
                 }
             })
         .then(
@@ -43,7 +44,8 @@ export default {
         axios.get('https://api.themoviedb.org/3/search/tv', {
                 params: {
                     api_key: '1d2064f2ac36d63f2852970763f815fc',
-                    query: titleSearch
+                    query: titleSearch,
+                    language: 'it-IT'
                 }
             })
         .then(
