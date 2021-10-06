@@ -1,15 +1,17 @@
 <template>
-    <div>
-        <ul>
-            <li v-for="element in movieSearch" :key="element.id">
-                <Card :movie="element"/>
-            </li>
-        </ul>
-        <ul>
-            <li v-for="element in seriesSearch" :key="element.id">
-                <Card :series="element"/>
-            </li>
-        </ul>
+    <div class="catalogue">
+        <div class="container">
+            <ul>
+                <li v-for="element in movieSearch" :key="element.id">
+                    <Card :movie="element"/>
+                </li>
+            </ul>
+            <ul>
+                <li v-for="element in seriesSearch" :key="element.id">
+                    <Card :series="element"/>
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -31,9 +33,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/style/common.scss';
+@import '../assets/style/variables.scss';
+
+    .catalogue {
+        background-color: $primary-color;
+        height: calc(100vh - $header-height);
+        overflow-y: auto;
+    }
+
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
     li{
         list-style: none;
-        margin-block: 1rem;
+        margin: 1rem;
+        width: calc(25% - 2rem);
+        text-align: center;
     }
 
 </style>
