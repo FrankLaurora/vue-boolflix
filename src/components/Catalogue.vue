@@ -3,10 +3,10 @@
         <div class="container">
             <ul>
                 <li v-for="element in movieSearch" :key="element.id">
-                    <Card :movie="element"/>
+                    <Card :id="element.id" :data_object="element" :genres="movieGenresCat"/>
                 </li>
                 <li v-for="element in seriesSearch" :key="element.id">
-                    <Card :series="element"/>
+                    <Card :id="element.id" :data_object="element" :genres="tvGenresCat"/>
                 </li>
             </ul>
         </div>
@@ -23,9 +23,26 @@ export default {
         Card
     },
 
+    data() {
+        return {
+            id: []
+        }
+    },
+
     props: {
         movieSearch: Array,
-        seriesSearch: Array
+        seriesSearch: Array,
+        movieGenresCat: Array,
+        tvGenresCat: Array
+    },
+
+    watch: {
+        movieSearch: function() {
+            this.movieSearch.forEach(movie => {
+                this.id = [];
+                this.id.push(movie.id)
+            })
+        }
     }
 }
 </script>
