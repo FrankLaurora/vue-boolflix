@@ -1,11 +1,12 @@
 <template>
+    <!-- il contenitore delle card richiama una funzione che, al mouseenter, effettua una chiamata axios per recuperare il cast -->
     <div class="card" @mouseenter="(data_object.title != undefined) ? getMovieCast(id) : getTvCast(id)">
         <div class="img_box">
-            
+            <!-- la locandina, se mancante, viene sosituita da un placeholder che contiene il titolo del film o il nome della serie -->
             <img class="cover" :src="(data_object.poster_path != null) ? `https://image.tmdb.org/t/p/w342${data_object.poster_path}` : `https://via.placeholder.com/185x278/CECECE/000000/?text=${data_object.title || data_object.name}`" :alt="data_object.title || data_object.name">
 
             <div class="info_box">
-
+                
                 <p><strong>Titolo:</strong> {{data_object.title || data_object.name}}</p>
 
                 <p><strong>Titolo originale:</strong> {{data_object.original_title || data_object.original_name}}</p>
@@ -16,12 +17,13 @@
 
                 <div class="score">
                     <strong>Voto: </strong>
+                    <!-- per stampare le stelle piene o vuote effettuo un ciclo cinque volte e, se l'indice se l'iterazione è minore o uguale al voto arrotondato, stampa una stella piena -->
                     <span class="stars" v-for="(score, index) in 5" :key="index">
                         <i v-if="score <= roundedScore(data_object.vote_average)" class="fas fa-star"></i>
                         <i v-else-if="score > roundedScore(data_object.vote_average)" class="far fa-star"></i>
                     </span>
                 </div>
-
+                <!-- l'icona della bandiera è inserita richiamandola da un pacchetto -->
                 <lang-flag class="flag" :iso="data_object.original_language" :squared="false" />
             </div>
         </div>
@@ -48,8 +50,8 @@ export default {
     data() {
         return {
             scoreStars: [],
-            combinedID: Number,
-            castMembers: String
+            castMembers: String,
+            combinedID: Number
         }
     },
 
@@ -60,6 +62,7 @@ export default {
             return roundedNum
         },
 
+        // le funzioni che effettuano la chiamata per il cast accettano un argomento che corrisponderà all'ID del film o della serie 
         getMovieCast: function(num) {
             axios.get('https://api.themoviedb.org/3/movie/' + num + '/credits', {
                 params: {
@@ -69,9 +72,12 @@ export default {
             })
             .then(
                 (response) => {
+                    // svuoto il data contenente i membri del cast 
                     this.castMembers = '';
+                    // effettuo un controllo sulla lunghezza del risultato della chiamata
+                    // se contiene meno di 5 elementi
                     if(response.data.cast.length < 5) {
-
+                        // effettuo un ciclo per tutti gli elementi    
                         for(let i = 0; i < response.data.cast.length; i++) {
                             let actor = response.data.cast[i];
                             let actorName = actor.name;
@@ -83,7 +89,7 @@ export default {
                         }
 
                     } else {
-
+                        // altrimenti ne prendo solo 5
                         for(let i = 0; i < 5; i++) {
                             let actor = response.data.cast[i];
                             let actorName = actor.name;
@@ -154,7 +160,19 @@ export default {
         //     })
         // }
 
-    }
+    },
+
+    // computed: {
+    //     getCombinedID: function() {
+    //         return this.combinedID = this.id;
+    //     }
+    // },
+
+    // watch: {
+    //     combinedID: function(val) {
+    //         console.log(val);
+    //     }
+    // }
 }
 </script>
 
