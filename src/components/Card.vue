@@ -1,7 +1,7 @@
 <template>
     <!-- il contenitore delle card richiama una funzione che, al mouseenter, effettua una chiamata axios per recuperare il cast -->
     <div class="card" @mouseenter="(data_object.title != undefined) ? getMovieCast(id) : getTvCast(id)">
-        <div class="img_box">
+        <div class="img_box" @mouseenter="getGenre(data_object)">
             <!-- la locandina, se mancante, viene sosituita da un placeholder che contiene il titolo del film o il nome della serie -->
             <img class="cover" :src="(data_object.poster_path != null) ? `https://image.tmdb.org/t/p/w342${data_object.poster_path}` : `https://via.placeholder.com/185x278/CECECE/000000/?text=${data_object.title || data_object.name}`" :alt="data_object.title || data_object.name">
 
@@ -13,7 +13,9 @@
 
                 <p v-if="data_object.overview != ''" class="overview"><strong>Panoramica:</strong> {{data_object.overview}}</p>
 
-                <p><strong>Cast:</strong><span> {{castMembers}}</span></p>
+                <p v-if="castMembers != ''"><strong>Cast:</strong><span> {{castMembers}}</span></p>
+
+                <p v-if="data_object.genre_ids.length != 0"><strong>Generi:</strong><span v-for="(genre, index) in genresInfo" :key="index"> {{genre}} </span></p>
 
                 <div class="score">
                     <strong>Voto: </strong>
@@ -51,7 +53,8 @@ export default {
         return {
             scoreStars: [],
             castMembers: String,
-            combinedID: Number
+            combinedID: Number,
+            genresInfo: []
         }
     },
 
@@ -148,31 +151,20 @@ export default {
             );
         },
 
-        // getGenre: function(num) {
-        //     let genre = '';
+        getGenre: function(object) {
+            this.genresInfo = [];
 
-        //     this.genres.filter(Element => {
-        //         if (Element.id == num){
-        //             this.genre = Element.name;
-        //             console.log(this.genre)
-        //             return genre;
-        //         }
-        //     })
-        // }
+            this.genres.filter(Element => {
+                object.genre_ids.forEach(id => {
+                    if (Element.id == id){
+                        this.genresInfo.push(Element.name)
+                        return this.genresInfo;
+                    }
+                })   
+            })
+        }
 
-    },
-
-    // computed: {
-    //     getCombinedID: function() {
-    //         return this.combinedID = this.id;
-    //     }
-    // },
-
-    // watch: {
-    //     combinedID: function(val) {
-    //         console.log(val);
-    //     }
-    // }
+    }
 }
 </script>
 
@@ -202,6 +194,7 @@ export default {
         .info_box {
             opacity: 0;
             transition: opacity 0.2s;
+            overflow-y: auto;
         }
 
         &:hover {
@@ -232,9 +225,10 @@ export default {
                 }
 
                 .overview {
-                    height: 6rem;
+                    height: 5rem;
                     overflow-y: auto;
                     border: 1px solid rgba(255, 255, 255, 50%);
+                    padding: 0.1rem;
                     box-shadow: 0px 0px 8px rgba(255, 255, 255, 50%);
 
                     &::-webkit-scrollbar {
